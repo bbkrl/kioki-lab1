@@ -1,79 +1,67 @@
-# def caeser_encoder(k:int):
-#     """k - шаг шифрования"""
-#     alphabet_EU = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
-#     alphabet_RU = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
-#     # k = int(input('Шаг шифрования'))
-#
-#     lang = input('Выберите язык RU/EU: ').lower()
-#     message = input('Строка для шифрования').upper()
-#
-#     result = ''
-#
-#     if lang == 'ru':
-#         for i in message:
-#             place = alphabet_RU.find(i)
-#             new_place = place + k
-#             if i in alphabet_RU:
-#                 result += alphabet_RU[new_place]
-#             else:
-#                 result += i
-#     else:
-#         for i in message:
-#             place = alphabet_EU.find(i)
-#             new_place = place + k
-#             if i in alphabet_EU:
-#                 result += alphabet_EU[new_place]
-#             else:
-#                 result += i
-#
-# def caeser_decoder():
-#
-
-def cipher(s, n):
-    if s > 26:
-        s = s % 26
-    caesar = ''
-    for i in n:
-        if ord('a') <= ord(i) <= ord('z'):
-            if ord(i) + s > ord('z'):
-                caesar = caesar + chr((ord(i) + s) - 26)
-            else:
-                caesar = caesar + chr(ord(i) + s)
-        elif ord('A') <= ord(i) <= ord('Z'):
-            if ord(i) + s > ord('Z'):
-                caesar = caesar + chr((ord(i) + s) - 26)
-            else:
-                caesar = caesar + chr(ord(i) + s)
-        else:
-            caesar = caesar + i
-    return caesar
+import string
 
 
-def dec(s, n):
-    if s > 26:
-        s = s % 26
-    caesar = ''
-    for i in n:
-        if ord('a') <= ord(i) <= ord('z'):
-            if ord(i) - s < ord('a'):
-                caesar = caesar + chr((ord(i) - s) + 26)
+def caesar_cipher(text, shift):
+    """
+    This function takes a string and a shift value and returns the Caesar cipher of the string.
+
+    Parameters:
+    text (str): The string to be encrypted
+    shift (int): The shift value for the cipher
+
+    Returns:
+    str: The encrypted string
+    """
+    try:
+        # Check if shift value is within range
+        if shift < 0 or shift > 25:
+            raise ValueError("Shift value must be between 0 and 25")
+
+        # Create a translation table for the cipher
+        alphabet = string.ascii_lowercase
+        shifted_alphabet = alphabet[shift:] + alphabet[:shift]
+        table = str.maketrans(alphabet, shifted_alphabet)
+
+        # Return the encrypted string
+        return text.translate(table)
+    except ValueError as e:
+        # Log the error
+        print(f"Error: {e}")
+        return ""
+
+
+def caesar_decrypt(ciphertext, shift):
+    """
+    This function takes a ciphertext and a shift value and returns the decrypted plaintext using the Caesar cipher.
+
+    Parameters:
+    ciphertext (str): The encrypted message
+    shift (int): The number of positions to shift the letters
+
+    Returns:
+    str: The decrypted plaintext
+    """
+    try:
+        # Check if shift is within the range of 1 to 25
+        if shift < 1 or shift > 25:
+            raise ValueError("Shift value must be between 1 and 25")
+
+        # Decrypt the ciphertext
+        plaintext = ""
+        for char in ciphertext:
+            if char.isalpha():
+                # Shift the letter by the specified amount
+                shifted_char = chr((ord(char.lower()) - 97 - shift) % 26 + 97)
+                plaintext += shifted_char.upper() if char.isupper() else shifted_char
             else:
-                caesar = caesar + chr(ord(i) - s)
-        elif ord('A') <= ord(i) <= ord('Z'):
-            if ord(i) - s < ord('A'):
-                caesar = caesar + chr((ord(i) - s) + 26)
-            else:
-                caesar = caesar + chr(ord(i) - s)
-        else:
-            caesar = caesar + i
-    return caesar
+                plaintext += char
+
+        return plaintext
+    except ValueError as e:
+        # Log the error
+        print(f"Error: {e}")
+        return ""
 
 
 if __name__ == '__main__':
-    s = int(input("Введите ключ - "))
-    n = input("Введите текст - ")
-
-    encrypted = cipher(s, n)
-    decrypted = dec(s, encrypted)
-
-    print(f'encrypted - {encrypted}\ndecrypted - {decrypted}')
+    pass

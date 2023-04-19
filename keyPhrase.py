@@ -13,19 +13,6 @@ def number_key(key_phrase):
         keyword_indexes.append(symbol_index)
         deepcopy_sorted_list_key[symbol_index] = "Q"
 
-    # letters = tuple(string.ascii_lowercase)
-    #
-    # key_phrase = key_phrase.lower()
-    # key_number = list(key_phrase)
-    #
-    # counter = 0
-    #
-    # for letter_index, letter_value in enumerate(letters):
-    #     for key_index, key_value in enumerate(key_phrase):
-    #         if letter_value == key_value:
-    #             key_number[key_index] = counter
-    #             counter += 1
-
     return keyword_indexes
 
 
@@ -68,6 +55,5 @@ def key_phrase_decryption(text, key):
 
 if __name__ == '__main__':
 
-    a = key_phrase_encryption('This is a lecture on encryption algorithms', 'cryptography')
-    # print(a, sep='\n')
+    a = key_phrase_encryption('jlbyldfnh xtnsht gznm itcnm ctvmdjctvm', 'cryptography')
     print(a, key_phrase_decryption(a, 'cryptography'))
